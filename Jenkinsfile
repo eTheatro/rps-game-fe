@@ -5,7 +5,7 @@ pipeline {
   tools {
     dockerTool 'docker'
     nodejs 'node18.9.0'
-    curl 'curl'
+    customTool 'curl'
   }
 
   stages {
