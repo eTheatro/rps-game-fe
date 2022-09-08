@@ -27,8 +27,6 @@ pipeline {
             steps {
               script {
 
-                  def response = sh(script: "curl -s https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl", returnStdout: true).trim()
-
                   def inspectExitCode = sh script: "./kubectl version", returnStatus: true
                   if (inspectExitCode == 0) {
                       sh "echo kubectl already installed."
