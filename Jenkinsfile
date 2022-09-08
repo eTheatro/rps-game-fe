@@ -5,7 +5,7 @@ pipeline {
   tools {
     dockerTool 'docker'
     nodejs 'node18.9.0'
-    customTool 'curl'
+    com.cloudbees.jenkins.plugins.customtools.CustomTool 'curl'
   }
 
   stages {
