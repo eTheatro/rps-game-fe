@@ -18,7 +18,9 @@ pipeline {
 
           stage('Docker') {
                   steps {
-                      sh 'docker -v'
+                      sh 'docker login --username azamani --password Caciopee*00'
+                      sh 'docker build -t azamani/rps-game:latest'
+                      sh 'docker push azamani/rps-game:latest'
                   }
           }//stage end
 
@@ -31,6 +33,7 @@ pipeline {
                 sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
                 sh 'chmod u+x ./kubectl'
                 sh './kubectl --insecure-skip-tls-verify create ns test ||true 2>/dev/null'
+                sh './kubectl --insecure-skip-tls-verify apply -f manifest.yaml ||true 2>/dev/null'
               }
             }//steps end
           }//stage end
