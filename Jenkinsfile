@@ -3,7 +3,6 @@ pipeline {
   agent any
 
   tools {
-    maven 'M3'
     dockerTool 'docker'
     nodejs 'node18.9.0'
   }
@@ -26,7 +25,7 @@ pipeline {
         stage('Apply Kubernetes files') {
             steps {
               script {
-                  def inspectExitCode = sh script: "./kubectl version", returnStatus: true
+                  def inspectExitCode = sh script: "./kubectl version ||true 2>/dev/null", returnStatus: true
                   if (inspectExitCode == 0) {
                       sh "echo kubectl already installed."
                   } else {
