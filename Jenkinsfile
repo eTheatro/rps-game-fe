@@ -30,6 +30,7 @@ pipeline {
                   if (inspectExitCode == 0) {
                       sh "echo kubectl already installed."
                   } else {
+                    sh 'which curl'
                     sh 'echo installing kubectl...'
                     sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
                     sh 'chmod u+x ./kubectl'
