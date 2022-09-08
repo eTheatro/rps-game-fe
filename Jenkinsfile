@@ -25,7 +25,7 @@ pipeline {
         stage('Apply Kubernetes files') {
             steps {
               script {
-                  def inspectExitCode = sh script: "./kubectl version ||true 2>/dev/null", returnStatus: true
+                  def inspectExitCode = sh script: "./kubectl version", returnStatus: true
                   if (inspectExitCode == 0) {
                       sh "echo kubectl already installed."
                   } else {
