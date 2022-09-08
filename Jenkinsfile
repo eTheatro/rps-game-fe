@@ -5,7 +5,7 @@ pipeline {
   tools {
     dockerTool 'docker'
     nodejs 'node18.9.0'
-    'com.cloudbees.jenkins.plugins.customtools.CustomTool' 'kubectl'
+    //'com.cloudbees.jenkins.plugins.customtools.CustomTool' 'kubectl'
   }
 
   stages {
@@ -32,10 +32,10 @@ pipeline {
                       sh "echo kubectl already installed."
                   } else {
                     sh "kubectl is not here..."
-                    //sh "which curl"
+                    sh "which curl"
                     //sh 'chmod 744 /home/jenkins/agent/tools/com.cloudbees.jenkins.plugins.customtools.CustomTool/curl'
-                    //sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
-                    //sh 'chmod u+x ./kubectl'
+                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
+                    sh 'chmod u+x ./kubectl'
                   }  
               }//script end
 
