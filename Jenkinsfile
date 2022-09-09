@@ -56,7 +56,7 @@ pipeline {
                 newImageName =  sh script: "sed -e \"s/'//g\" tag.txt",  returnStatus: true 
 
                 //4) change kaniko image name with the new tag ${env.BUILD_NUMBER}
-                sh  'sed -e "s/\app_version/'+${env.BUILD_NUMBER}+'/g" kaniko.yaml > _kaniko.yaml'
+                sh  'sed -e "s/app_version/'+${env.BUILD_NUMBER}+'/g" kaniko.yaml > _kaniko.yaml'
                 //5) apply kaniko and push docker image to docker registry
                 sh './kubectl --insecure-skip-tls-verify apply -f _kaniko.yaml ||true 2>/dev/null'
               
