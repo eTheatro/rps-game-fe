@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: rps-game
-        image: azamani/rps-game:latest
+        image: azamani/rps-game:app_version
         ports:
         - containerPort: 80
 ---
