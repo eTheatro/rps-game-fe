@@ -52,7 +52,7 @@ pipeline {
                 //sh './kubectl --insecure-skip-tls-verify apply -f manifest.yaml ||true 2>/dev/null'
 
                 sh './kubectl --insecure-skip-tls-verify delete secret rpskanikosec'
-                sh './kubectl --insecure-skip-tls-verify create secret docker-registry rpskanikosec --docker-server=https://index.docker.io/v2/ --docker-username=admin --docker-password=Yamane@2022 --docker-email=amn.zmi@gmail.com ||true 2>/dev/null'
+                sh './kubectl --insecure-skip-tls-verify create secret docker-registry rpskanikosec --docker-server=https://core.harbor.domain/v2/ --docker-username=admin --docker-password=Yamane@2022 --docker-email=amn.zmi@gmail.com ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify delete job kaniko ||true 2>/dev/null'
 
                 
