@@ -4,19 +4,17 @@ pipeline {
 
   tools {
     dockerTool 'docker'
-    nodejs 'node18.9.0'
+    //nodejs 'node18.9.0'
     //'com.cloudbees.jenkins.plugins.customtools.CustomTool' 'kubectl'
   }
 
   stages {
-          stage("Build") {
-            steps {
-              sh 'npm install'
-              sh 'npm run build'
-            }
-          }//stage end
-
-
+          //stage("Build") {
+            //steps {
+              //sh 'npm install'
+              //sh 'npm run build'
+            //}
+          //}//stage end
         //  stage('Docker') {
           //        steps {
             //          sh 'docker login --username azamani --password Caciopee*00'

@@ -25,10 +25,57 @@ metadata:
   labels:
     app: rps-game
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
   - port: 80
     targetPort: 80
     protocol: TCP
   selector:
     app: rps-game
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.org/client-max-body-size: 4m
+    nginx.org/proxy-connect-timeout: 30s
+    nginx.org/proxy-read-timeout: 20s
+  name: myingress
+  namespace: default
+spec:
+  rules:
+  - host: jenkins.local.ma
+    http:
+      paths:
+      - backend:
+          service:
+            name: myjenkins
+            port:
+              number: 8080
+        path: /
+        pathType: ImplementationSpecific
+  - host: 71dc-41-140-155-229.eu.ngrok.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: myjenkins
+            port:
+              number: 8080
+        path: /
+        pathType: ImplementationSpecific
+  - host: rps-game.local.ma
+    http:
+      paths:
+      - backend:
+          service:
+            name: rps-game
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
