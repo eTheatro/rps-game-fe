@@ -8,8 +8,8 @@ spec:
       containers:
       - name: kaniko
         image: gcr.io/kaniko-project/executor:latest
-        args: ["--dockerfile=C:\Users\AZAMANI\Desktop\eTheatro\Dev\Sources\Front\rps-game-fe\Dockerfile",
-               "--context=C:\Users\AZAMANI\Desktop\eTheatro\Dev\Sources\Front\rps-game-fe\",
+        args: ["--dockerfile=C:/Users/AZAMANI/Desktop/eTheatro/Dev/Sources/Front/rps-game-fe/Dockerfile",
+               "--context=C:/Users/AZAMANI/Desktop/eTheatro/Dev/Sources/Front/rps-game-fe/",
                "--destination=azamani/rps-game:latest"]
         volumeMounts:
         - name: kaniko-secret
