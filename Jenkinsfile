@@ -16,13 +16,13 @@ pipeline {
           }//stage end
 
 
-          stage('Docker') {
-                  steps {
-                      sh 'docker login --username azamani --password Caciopee*00'
-                      sh 'docker build -t azamani/rps-game:latest'
-                      sh 'docker push azamani/rps-game:latest'
-                  }
-          }//stage end
+        //  stage('Docker') {
+          //        steps {
+            //          sh 'docker login --username azamani --password Caciopee*00'
+              //        sh 'docker build -t azamani/rps-game:latest'
+                //      sh 'docker push azamani/rps-game:latest'
+                 // }
+          //}//stage end
 
 
         stage('Apply Kubernetes files') {
