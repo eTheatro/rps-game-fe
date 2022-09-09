@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kaniko
+spec:
+  template:
+    spec:
+      containers:
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:latest
+        args: ["--dockerfile=C:\Users\AZAMANI\Desktop\eTheatro\Dev\Sources\Front\rps-game-fe\Dockerfile",
+               "--context=C:\Users\AZAMANI\Desktop\eTheatro\Dev\Sources\Front\rps-game-fe\",
+               "--destination=azamani/rps-game:latest"]
+        volumeMounts:
+        - name: kaniko-secret
+          mountPath: "/kaniko/.docker"
+      restartPolicy: Never
+      volumes:
+      - name: kaniko-secret
+        secret:
+          secretName: rpskanikosec
+          items:
+          - key: .dockerconfigjson
+            path: config.json
