@@ -48,7 +48,7 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify delete job kaniko ||true 2>/dev/null'
 
                 
-                def oldImageName = sh script: "./kubectl --insecure-skip-tls-verify get deployment rps-game -o=jsonpath='{$.spec.template.spec.containers[:1].image}' > tag.txt", returnStatus: true 
+                def oldImageName = sh script: "./kubectl --insecure-skip-tls-verify get deployment rps-game -o=jsonpath='{\$.spec.template.spec.containers[:1].image}' > tag.txt", returnStatus: true 
                 def newImageName = sh script: " sed -r 's/\$\{version\}/${env.BUILD_NUMBER}/' tag.txt", returnStatus: true
 
                 newImageName =  sh script: "sed -e \"s/'//g\" tag.txt",  returnStatus: true 
