@@ -35,7 +35,7 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify create ns test ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify apply -f manifest.yaml ||true 2>/dev/null'
 
-                sh './kubectl --insecure-skip-tls-verify create secret docker-registry rpskanikosec --docker-server=https://index.docker.io/v1/ --docker-username=azamani --docker-password=Caciopee*00 --docker-email=amn.zmi@gmail.com ||true 2>/dev/null'
+                sh './kubectl --insecure-skip-tls-verify create secret docker-registry rpskanikosec --docker-server=https://index.docker.io/v2/ --docker-username=azamani --docker-password=Caciopee*00 --docker-email=amn.zmi@gmail.com ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify apply -f kaniko.yaml ||true 2>/dev/null'
 
               }

@@ -7,10 +7,11 @@ spec:
     spec:
       containers:
       - name: kaniko
-        image: gcr.io/kaniko-project/executor:latest
-        args: ["--dockerfile=C:/Users/AZAMANI/Desktop/eTheatro/Dev/Sources/Front/rps-game-fe/Dockerfile",
-               "--context=C:/Users/AZAMANI/Desktop/eTheatro/Dev/Sources/Front/rps-game-fe/",
-               "--destination=azamani/rps-game:latest"]
+        image: gcr.io/kaniko-project/executor:v0.16.0
+        args: ["--dockerfile=Dockerfile",
+               "--context=git://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@github.com/eTheatro/rps-game-fe.git#refs/heads/develop",
+               "--destination=azamani/rps-game:latest",
+               "--skip-tls-verify"]
         volumeMounts:
         - name: kaniko-secret
           mountPath: "/kaniko/.docker"
