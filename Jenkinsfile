@@ -63,13 +63,13 @@ pipeline {
                 //sh 'sed -e \"s/\'//g\" tag.txt > newImageName'
 
                 //4) change kaniko image name with the new tag ${env.BUILD_NUMBER}
-                sh  'sed -e "s/app_version/${env.BUILD_NUMBER}/g" kaniko.yaml > _kaniko.yaml'
+                sh  'sed -e "s/app_version/$BUILD_NUMBER/g" kaniko.yaml > _kaniko.yaml'
                 //5) apply kaniko and push docker image to docker registry
                 sh './kubectl --insecure-skip-tls-verify apply -f _kaniko.yaml ||true 2>/dev/null'
               
-                sh 'echo ${env.BUILD_NUMBER} <= tagged succesfully'
+                sh 'echo $BUILD_NUMBER <= tagged succesfully'
                 //6) Do a rolling update using the new tag
-                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/rps-game:{env.BUILD_NUMBER} --record'
+                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/rps-game:$BUILD_NUMBER --record'
                 //sh './kubectl --insecure-skip-tls-verify rollout restart deployment rps-game'
 
               }
