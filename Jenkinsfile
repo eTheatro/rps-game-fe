@@ -51,7 +51,8 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify create ns test ||true 2>/dev/null'
                 //sh './kubectl --insecure-skip-tls-verify apply -f manifest.yaml ||true 2>/dev/null'
 
-                sh './kubectl --insecure-skip-tls-verify create secret docker-registry rpskanikosec --docker-server=https://index.docker.io/v2/ --docker-username=azamani --docker-password=Caciopee*00 --docker-email=amn.zmi@gmail.com ||true 2>/dev/null'
+                sh './kubectl --insecure-skip-tls-verify delete secret rpskanikosec'
+                sh './kubectl --insecure-skip-tls-verify create secret docker-registry rpskanikosec --docker-server=https://index.docker.io/v2/ --docker-username=admin --docker-password=Yamane@2022 --docker-email=amn.zmi@gmail.com ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify delete job kaniko ||true 2>/dev/null'
 
                 
@@ -68,7 +69,7 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify apply -f _kaniko.yaml ||true 2>/dev/null'
               
                 //6) Do a rolling update using the new tag
-                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/rps-game:$BUILD_NUMBER --record'
+                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=core.harbor.domain/games/rps-game:$BUILD_NUMBER --record'
                 //sh './kubectl --insecure-skip-tls-verify rollout restart deployment rps-game'
 
               }

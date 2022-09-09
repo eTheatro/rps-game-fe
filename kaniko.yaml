@@ -10,7 +10,7 @@ spec:
         image: gcr.io/kaniko-project/executor:v0.16.0
         args: ["--dockerfile=Dockerfile",
                "--context=git://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@github.com/eTheatro/rps-game-fe.git#refs/heads/develop",
-               "--destination=azamani/rps-game:app_version",
+               "--destination=core.harbor.domain/games/rps-game:app_version",
                "--skip-tls-verify"]
         volumeMounts:
         - name: kaniko-secret
