@@ -1,8 +1,13 @@
-def newImageName = "";
+
 pipeline {
 
 
+
   agent any
+
+  environment {
+     newImageName = ""
+   }
 
   tools {
     dockerTool 'docker'
@@ -54,6 +59,8 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify get deployment rps-game -o=jsonpath="{$.spec.template.spec.containers[:1].image}" > tag.txt'
                 //2) change the tag and save it in temp file tag.txt
                 sh 'sed -r "s/app_version/'+${env.BUILD_NUMBER}+'/" tag.txt'
+
+                
                 //3) remove simple quote from the tag and get the final tag
                 newImageName =  sh script: "sed -e \"s/'//g\" tag.txt",  returnStatus: true 
 
