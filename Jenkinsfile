@@ -1,4 +1,6 @@
+def newImageName = "";
 pipeline {
+
 
   agent any
 
@@ -53,7 +55,7 @@ pipeline {
                 //2) change the tag and save it in temp file tag.txt
                 sh 'sed -r "s/app_version/'+${env.BUILD_NUMBER}+'/" tag.txt'
                 //3) remove simple quote from the tag and get the final tag
-                def newImageName =  sh script: "sed -e \"s/'//g\" tag.txt",  returnStatus: true 
+                newImageName =  sh script: "sed -e \"s/'//g\" tag.txt",  returnStatus: true 
 
                 //4) change kaniko image name with the new tag ${env.BUILD_NUMBER}
                 sh  'sed -e "s/app_version/'+${env.BUILD_NUMBER}+'/g" kaniko.yaml > _kaniko.yaml'
