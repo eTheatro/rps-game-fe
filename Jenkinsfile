@@ -38,14 +38,6 @@ pipeline {
                 def inspectExitCode = sh script: "./kubectl version", returnStatus: true
                   if (inspectExitCode == 0) {
                       sh "echo kubectl already installed."
-
-                       //1) get the current image name
-                sh './kubectl --insecure-skip-tls-verify get deployment rps-game -o=jsonpath="{$.spec.template.spec.containers[:1].image}" > tag.txt'
-                //2) change the tag and save it in temp file tag.txt
-                sh 'sed -r "s/app_version/'+${env.BUILD_NUMBER}+'/" tag.txt'
-                //3) remove simple quote from the tag and get the final tag
-                def newImageName =  sh script: "sed -e \"s/'//g\" tag.txt",  returnStatus: true 
-
                   } else {
                     sh "echo installing kubectl..."
                     sh 'which curl'
@@ -63,7 +55,12 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify delete job kaniko ||true 2>/dev/null'
 
                 
-               
+                //1) get the current image name
+                sh './kubectl --insecure-skip-tls-verify get deployment rps-game -o=jsonpath="{$.spec.template.spec.containers[:1].image}" > tag.txt'
+                //2) change the tag and save it in temp file tag.txt
+                sh 'sed -r "s/app_version/'+${env.BUILD_NUMBER}+'/" tag.txt'
+                //3) remove simple quote from the tag and get the final tag
+                sh 'sed -e \"s/\'//g\" tag.txt > newImageName'
 
                 //4) change kaniko image name with the new tag ${env.BUILD_NUMBER}
                 sh  'sed -e "s/app_version/'+${env.BUILD_NUMBER}+'/g" kaniko.yaml > _kaniko.yaml'
@@ -72,7 +69,7 @@ pipeline {
               
                 sh 'echo '+inspectExitCode+' <= tagged succesfully'
                 //6) Do a rolling update using the new tag
-                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game='+newImageName+' --record'
+                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/rps-game:'+{env.BUILD_NUMBER}+' --record'
                 //sh './kubectl --insecure-skip-tls-verify rollout restart deployment rps-game'
 
               }
