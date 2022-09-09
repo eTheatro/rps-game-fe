@@ -46,8 +46,20 @@ pipeline {
 
                 sh './kubectl --insecure-skip-tls-verify create secret docker-registry rpskanikosec --docker-server=https://index.docker.io/v2/ --docker-username=azamani --docker-password=Caciopee*00 --docker-email=amn.zmi@gmail.com ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify delete job kaniko ||true 2>/dev/null'
-                sh './kubectl --insecure-skip-tls-verify apply -f kaniko.yaml ||true 2>/dev/null'
-                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/rps-game:0.0.2 --record'
+
+                
+                def oldImageName = sh script: "./kubectl --insecure-skip-tls-verify get deployment rps-game -o=jsonpath='{$.spec.template.spec.containers[:1].image}' > tag.txt", returnStatus: true 
+                def newImageName = sh script: " sed -r 's/\$\{version\}/${env.BUILD_NUMBER}/' tag.txt", returnStatus: true
+
+                newImageName =  sh script: "sed -e \"s/'//g\" tag.txt",  returnStatus: true 
+
+                sh  'sed -e "s/\$\{version\}/${env.BUILD_NUMBER}/g" kaniko.yaml > _kaniko.yaml'
+                sh './kubectl --insecure-skip-tls-verify apply -f _kaniko.yaml ||true 2>/dev/null'
+
+
+
+                sh 'echo '+inspectExitCode+' <= tagged succesfully'
+                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game='+newImageName+' --record'
                 sh './kubectl --insecure-skip-tls-verify rollout restart deployment rps-game'
 
               }
