@@ -48,7 +48,7 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify delete job kaniko ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify apply -f kaniko.yaml ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/rps-game:0.0.2 --record'
-                sh './kubectl rollout restart deployment rps-game'
+                sh './kubectl --insecure-skip-tls-verify rollout restart deployment rps-game'
 
               }
             }//steps end
