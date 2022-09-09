@@ -11,7 +11,8 @@ spec:
         args: ["--dockerfile=Dockerfile",
                "--context=git://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@github.com/eTheatro/rps-game-fe.git#refs/heads/develop",
                "--destination=core.harbor.domain/games/rps-game:app_version",
-               "--skip-tls-verify"]
+               "--skip-tls-verify",
+               "--insecure=true"]
         volumeMounts:
         - name: kaniko-secret
           mountPath: "/kaniko/.docker"
