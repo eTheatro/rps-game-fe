@@ -26,11 +26,21 @@ pipeline {
 
         stage('Apply Kubernetes files') {
             steps {
+
+               script {
+                def inspectExitCode = sh script: "./kubectl version", returnStatus: true
+                  if (inspectExitCode == 0) {
+                      sh "echo kubectl already installed."
+                  } else {
+                    sh "echo installing kubectl..."
+                    sh 'which curl'
+                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
+                    sh 'chmod u+x ./kubectl'
+                  }  
+               }  
       
               withKubeConfig([caCertificate: 'K8S_CA_CERT', credentialsId: 'k8s', serverUrl: 'https://kubernetes.docker.internal:6443',  contextName: 'docker-desktop', clusterName: 'docker-desktop']) {
-                sh 'which curl'
-                sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'
-                sh 'chmod u+x ./kubectl'
+
                 sh './kubectl --insecure-skip-tls-verify create ns test ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify apply -f manifest.yaml ||true 2>/dev/null'
 
