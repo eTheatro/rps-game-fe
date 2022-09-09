@@ -67,9 +67,13 @@ pipeline {
                 sh  'sed -e "s/app_version/$BUILD_NUMBER/g" kaniko.yaml > _kaniko.yaml'
                 //5) apply kaniko and push docker image to docker registry
                 sh './kubectl --insecure-skip-tls-verify apply -f _kaniko.yaml ||true 2>/dev/null'
+
+                sh 'echo Building docker image with KANIKO...'
+                sh './kubectl wait --for=condition=complete --timeout=300s job/kaniko'
+                sh 'echo Docker image built and published to docker registry using KANIKO.'
               
                 //6) Do a rolling update using the new tag
-                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/games/rps-game:$BUILD_NUMBER --record'
+                sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/rps-game:$BUILD_NUMBER --record'
                 //sh './kubectl --insecure-skip-tls-verify rollout restart deployment rps-game'
 
               }
