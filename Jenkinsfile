@@ -69,7 +69,7 @@ pipeline {
               
                 //6) Do a rolling update using the new tag
                 sh './kubectl --insecure-skip-tls-verify set image deployment/rps-game rps-game=azamani/rps-game:$BUILD_NUMBER --record'
-                //sh './kubectl --insecure-skip-tls-verify rollout restart deployment rps-game'
+                sh './kubectl --insecure-skip-tls-verify rollout restart deployment rps-game'
 
               }
             }//steps end
