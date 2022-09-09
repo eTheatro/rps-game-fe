@@ -69,7 +69,7 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify apply -f _kaniko.yaml ||true 2>/dev/null'
 
                 sh 'echo Building docker image with KANIKO...'
-                sh './kubectl wait --for=condition=complete --timeout=300s job/kaniko'
+                sh './kubectl --insecure-skip-tls-verify wait --for=condition=complete --timeout=300s job/kaniko'
                 sh 'echo Docker image built and published to docker registry using KANIKO.'
               
                 //6) Do a rolling update using the new tag
