@@ -1,13 +1,7 @@
 
 pipeline {
 
-
-
   agent any
-
-  environment {
-     newImageName = ""
-   }
 
   tools {
     dockerTool 'docker'
@@ -16,20 +10,6 @@ pipeline {
   }
 
   stages {
-          //stage("Build") {
-            //steps {
-              //sh 'npm install'
-              //sh 'npm run build'
-            //}
-          //}//stage end
-        //  stage('Docker') {
-          //        steps {
-            //          sh 'docker login --username azamani --password Caciopee*00'
-              //        sh 'docker build -t azamani/rps-game:latest'
-                //      sh 'docker push azamani/rps-game:latest'
-                 // }
-          //}//stage end
-
 
         stage('Apply Kubernetes files') {
             steps {
@@ -54,15 +34,7 @@ pipeline {
                 sh './kubectl --insecure-skip-tls-verify delete secret rpskanikosec'
                 sh './kubectl --insecure-skip-tls-verify create secret docker-registry rpskanikosec --docker-server=https://index.docker.io/v2/ --docker-username=azamani --docker-password=Caciopee*00 --docker-email=amn.zmi@gmail.com ||true 2>/dev/null'
                 sh './kubectl --insecure-skip-tls-verify delete job kaniko ||true 2>/dev/null'
-
                 
-                //1) get the current image name
-                //sh './kubectl --insecure-skip-tls-verify get deployment rps-game -o=jsonpath="{$.spec.template.spec.containers[:1].image}" > tag.txt'
-                //2) change the tag and save it in temp file tag.txt
-                //sh 'sed -r "s/app_version/${env.BUILD_NUMBER}/" tag.txt'
-                //3) remove simple quote from the tag and get the final tag
-                //sh 'sed -e \"s/\'//g\" tag.txt > newImageName'
-
                 //4) change kaniko image name with the new tag ${env.BUILD_NUMBER}
                 sh  'sed -e "s/app_version/$BUILD_NUMBER/g" kaniko.yaml > _kaniko.yaml'
                 //5) apply kaniko and push docker image to docker registry
