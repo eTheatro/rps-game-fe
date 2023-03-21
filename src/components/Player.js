@@ -45,8 +45,16 @@ export function Player(props) {
             if (props.image) {
                 if (props.type === 'player1') {
                     setImage(props.image.split('-')[1])
-                    //dispatch(hitPlayer1());
-                    fireRules();
+                    
+                    if( player.hand === 'Paper' && cpu.hand === 'Scissor') {
+                        dispatch(hitPlayer1());
+                    } else if( player.hand === 'Scissor' && cpu.hand === 'Rock') {
+                        dispatch(hitPlayer1());
+                    }
+                    else if( player.hand === 'Rock' && cpu.hand === 'Paper') {
+                        dispatch(hitPlayer1());
+                    }
+                    //fireRules();
                 } else {
                     setImage(props.image)
                 }

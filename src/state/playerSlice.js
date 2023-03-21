@@ -31,7 +31,7 @@ export const playerSlice = createSlice({
         state.player1.score = 90;
       }
       else if (state.player1.score >= 10)
-        state.player1.score += action.payload;
+        state.player1.score -= 10;
     },
     init: (state) => {
       state = { ...state, ...initialState };
